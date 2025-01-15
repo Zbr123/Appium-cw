@@ -1,48 +1,24 @@
-name: Daily Build and Test
-
+name: Java CI with Maven
 on:
-  # Scheduled run (midnight UTC)
-  schedule:
-    - cron: "0 0 * * *"
-
-  # Manual trigger
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository
-      - name: Check out repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      # Step 2: Set up Java
-      - name: Set up Java
+      # Set up Java (includes Maven if you set up caching)
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'  # optional caching of Maven deps
 
-      # Step 3: Set up Maven (community action)
-      - name: Set up Maven
-        uses: s4u/setup-maven@v2
-        with:
-          maven-version: '3.8.8'  # or whatever Maven version you prefer
-
-      # Step 4: Cache Maven dependencies
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      # Step 5: Build the project
       - name: Build with Maven
-        run: mvn clean install
-
-      # Step 6: Run a specific test
-      - name: Run MobileRunner.java
-        run: mvn -Dtest=MobileRunner test
+        run: mvn -B clean install
