@@ -26,8 +26,8 @@ jobs:
 
       # Step 3: Compile the Java file
       - name: Compile MobileRunner.java
-        run: javac path/to/MobileRunner.java
+        run: javac src/test/java/MobileRunner.java
 
       # Step 4: Run the Java file
       - name: Run MobileRunner
-        run: java -cp path/to MobileRunner
+        run: java -cp src/test/java/MobileRunner.java
