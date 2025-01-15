@@ -100,11 +100,6 @@ public class HomeSteps extends Page {
         Assert.assertTrue(getHomePage().Wellness_dashboard().isDisplayed());
     }
 
-    @And("^\\[Home Page\\] Verify the Version Code (.*)$")
-    public void verifyTheCode(String versionCode) {
-        Assert.assertEquals(getHomePage().getVersionCode().getText(), versionCode, "Verify Version Code");
-    }
-
     @When("User taps on menu button")
     public void UserClicksOnMenuBtn() {
         Assert.assertTrue(getHomePage().Menu_btn().isDisplayed());
@@ -116,4 +111,5 @@ public class HomeSteps extends Page {
         Assert.assertTrue(getHomePage().Signout_btn().isDisplayed());
         getHomePage().Signout_btn().click();
     }
+
 }
