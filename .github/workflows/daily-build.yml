@@ -24,11 +24,11 @@ jobs:
           distribution: 'temurin' # OpenJDK distribution
           java-version: '17'      # Specify the required Java version
 
-      # Step 3: Set up Maven
-      - name: Set up Maven
-        uses: actions/setup-maven@v2
-        with:
-          maven-version: '3.8.1'
+      # Step 3: Install Maven manually
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
 
       # Step 4: Cache Maven dependencies to speed up builds
       - name: Cache Maven dependencies
