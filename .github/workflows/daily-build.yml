@@ -24,10 +24,25 @@ jobs:
           distribution: 'temurin' # OpenJDK distribution
           java-version: '17'      # Specify the required Java version
 
-      # Step 3: Compile the Java file
-      - name: Compile MobileRunner.java
-        run: javac src/test/java/MobileRunner.java
+      # Step 3: Set up Maven
+      - name: Set up Maven
+        uses: actions/setup-maven@v3
+        with:
+          maven-version: '3.8.1'
 
-      # Step 4: Run the Java file
-      - name: Run MobileRunner
-        run: java -cp src/test/java/MobileRunner.java
+      # Step 4: Cache Maven dependencies to speed up builds
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Step 5: Install project dependencies and build project
+      - name: Build with Maven
+        run: mvn clean install
+
+      # Step 6: Run MobileRunner.java (specific test)
+      - name: Run MobileRunner.java
+        run: mvn -Dtest=MobileRunner test
