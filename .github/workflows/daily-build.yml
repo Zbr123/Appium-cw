@@ -26,7 +26,7 @@ jobs:
 
       # Step 3: Set up Maven
       - name: Set up Maven
-        uses: apache/setup-maven@v2
+        uses: actions/setup-maven@v2
         with:
           maven-version: '3.8.1'
 
